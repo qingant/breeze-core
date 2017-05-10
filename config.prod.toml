@@ -1,0 +1,26 @@
+address = ":8080"
+strapath = "./dist/"
+
+[db]
+host = "breeze_mongo"
+port = 27017
+
+[redis]
+host = "breeze_redis"
+port = 6379
+
+[executors]
+    [executors.python]
+    type = "python"
+    host = "breeze_python"
+    port = 5000
+
+[tasks]
+    [tasks.open]
+    event = "emit_open"
+    spec = "0 5 9 * * *"
+
+    [tasks.close]
+    event = "emit_close"
+    spec =  "0 0 16 * * *"
+

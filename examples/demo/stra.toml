@@ -1,0 +1,27 @@
+id = "demo"
+tag = "0.1"
+dependencies = []
+slogan = "牛得一逼"
+
+[labels]
+    "交易分工" = ["逆势", "高控盘"]
+    "风险级别" = ["中等风险"]
+[desc]
+    "选股因子" = "控盘度，乖离率"
+    "止盈止损" = ""
+[route]
+    [[route.dayline]]
+    type = "log"
+    [[route.dayline]]
+    type = "python"
+    module = "demo.demo"
+    class = "Demo"
+    func = "timing"
+    [[route.order]]
+    type = "python"
+    module = "demo.demo"
+    class = "Demo"
+    func = "order"
+
+[params]
+risk_ratio = 0.5

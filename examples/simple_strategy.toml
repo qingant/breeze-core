@@ -1,0 +1,10 @@
+name = "simple_strategy"
+[route]
+    [[route.dayline]]
+    type = "python"
+    module = "demo"
+    class = "Demo"
+    func = "on_dayline"
+
+[params]
+risk_ratio = 0.5

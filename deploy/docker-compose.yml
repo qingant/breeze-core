@@ -1,0 +1,52 @@
+version: '3'
+services:
+  mongo:
+    image: "www.stockpalm.com/infra/mongo:latest"
+    networks:
+      - breeze
+    environment:
+      - ENV=prod
+    ports:
+      - 27017:27017
+  python:
+    image: "www.stockpalm.com/breeze/python:latest"
+    # ports:
+    #   - 5000:5000
+    networks:
+      - breeze
+    # extra_hosts:
+    #   - "tsdb.stockpalm.com:10.10.181.157"
+    environment:
+      - ENV=prod
+    deploy:
+      replicas: 1 
+    # endpoint_mode: dnsrr
+
+  redis:
+    image: "www.stockpalm.com/infra/redis:latest"
+    ports:
+      - 9379:6379
+    networks:
+      - breeze
+    environment:
+      - ENV=prod
+    deploy:
+      replicas: 1
+  core:
+    image: "www.stockpalm.com/breeze/core:latest"
+    ports:
+      - 9091:8080
+      # - 9379:6379
+    networks:
+      - breeze
+    environment:
+      - ENV=prod
+    depends_on:
+      - redis
+      - mongo
+      - python
+
+
+
+networks:
+  breeze:

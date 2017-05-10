@@ -1,0 +1,48 @@
+version: '3'
+services:
+  mongo:
+    image: "www.stockpalm.com/infra/mongo:latest"
+    networks:
+      - breeze_staging
+    environment:
+      - ENV=staging
+    ports:
+      - 9117:27017
+  python:
+    image: "www.stockpalm.com/breeze/python:latest"
+    # ports:
+    #   - 15000:5000
+    networks:
+      - breeze_staging
+    environment:
+      - ENV=staging
+    deploy:
+      replicas: 5
+  redis:
+    image: "www.stockpalm.com/infra/redis:latest"
+    ports:
+      - 9179:6379
+    networks:
+      - breeze_staging
+    environment:
+      - ENV=staging
+    deploy:
+      replicas: 1
+  core:
+    image: "www.stockpalm.com/breeze/core:latest"
+    ports:
+      - 9191:8080
+      # - 9379:6379
+    networks:
+      - breeze_staging
+    environment:
+      - ENV=staging
+    depends_on:
+      - redis
+      - mongo
+      - python
+
+
+
+networks:
+  breeze_staging:
